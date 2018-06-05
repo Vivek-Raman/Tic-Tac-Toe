@@ -1,8 +1,17 @@
 
 struct Input
 {
-	char Row;
+	int Row;
 	int Column;
+};
+
+enum EInputErrorType
+{
+	OK,
+	BadRow,
+	BadColumn,
+	BadBoth,
+	TooLong
 };
 
 class TicGame
@@ -16,9 +25,9 @@ public:
 	int GetScoreY() const;
 	char GetPlayerTurn() const;
 
-	int PlayTurn(int);	//TODO: Improve return value
-	bool ValidatedInput();
-	void DisplayBoard();
+	int PlayTurn();	//TODO: Improve return value
+	EInputErrorType ValidatedInput(char[]);
+	void DisplayBoard() const;
 	bool IsGameDone();
 
 	~TicGame();
@@ -29,4 +38,7 @@ private:
 	Input InputCoords;
 	int ScoreX;
 	int ScoreY;
+
+	void SwapPlayer();
+	void SplitInput(char[]);
 };

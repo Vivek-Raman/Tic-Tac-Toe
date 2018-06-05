@@ -25,14 +25,48 @@ int TicGame::GetScoreX() const { return ScoreX; }
 int TicGame::GetScoreY() const { return ScoreY; }
 char TicGame::GetPlayerTurn() const { return PlayerTurn; }
 
-int TicGame::PlayTurn(int Input)
+int TicGame::PlayTurn()
 {
-	
+	// Input Turn string
+	char InputValue[5];
+	fgets(InputValue, 5, stdin);
+	SplitInput(InputValue);
+	ValidatedInput(InputValue);
+
+	SwapPlayer();
 	return 0;
 }
 
+// Returns Error state of InputCoords
+EInputErrorType TicGame::ValidatedInput(char InputValue[])
+{
+	if (strlen(InputValue) > 2)
+		return EInputErrorType::TooLong;
+
+	InputCoords.Row = toupper(InputCoords.Row);
+	if (InputCoords.Row <= 1 || InputCoords.Row >= BOARD_SIZE)
+	{
+		if (InputCoords.Column <= 1 || InputCoords.Column >= BOARD_SIZE)
+		{
+			return EInputErrorType::BadBoth;
+		}
+		else
+		{
+			return EInputErrorType::BadRow;
+		}
+	}
+	else
+	{
+		if (InputCoords.Column <= 1 || InputCoords.Column >= BOARD_SIZE)
+		{
+			return EInputErrorType::BadColumn;
+		}
+	}
+	return EInputErrorType::OK;
+}
+
 // Prints the current game state
-void TicGame::DisplayBoard()
+void TicGame::DisplayBoard() const
 {
 	int i = 0, j = 0;
 	for (i = 0; i < BOARD_SIZE; ++i)
@@ -50,6 +84,20 @@ bool TicGame::IsGameDone()
 	return false;
 }
 
+void TicGame::SwapPlayer()
+{
+	if (PlayerTurn == 'X')
+		PlayerTurn = 'O';
+	else
+		PlayerTurn = 'X';
+}
+
+// Splits input into InputCoords
+void TicGame::SplitInput(char InputValue[])
+{
+	InputCoords.Row = (int)(toupper(InputValue[0]) - 'A') + 1;
+	InputCoords.Column = (int)InputValue[1];
+}
 
 TicGame::~TicGame()
 {
