@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+TicTacToe.vcxproj.user
+TicTacToe.vcxproj.filters
+.vs/
+/Debug
+
