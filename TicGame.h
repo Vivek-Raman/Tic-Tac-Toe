@@ -1,5 +1,10 @@
 
-typedef int Coords[2];
+struct Input
+{
+	char Row;
+	int Column;
+};
+
 class TicGame
 {
 
@@ -9,17 +14,19 @@ public:
 	//Get functions
 	int GetScoreX() const;
 	int GetScoreY() const;
+	char GetPlayerTurn() const;
 
-	int PlayTurn(int, bool);	//TODO: Improve return value
+	int PlayTurn(int);	//TODO: Improve return value
+	bool ValidatedInput();
+	void DisplayBoard();
 	bool IsGameDone();
-
-
 
 	~TicGame();
 
 private:
 	char Game[3][3];
-	Coords InputCoords;
+	char PlayerTurn;
+	Input InputCoords;
 	int ScoreX;
 	int ScoreY;
 };
