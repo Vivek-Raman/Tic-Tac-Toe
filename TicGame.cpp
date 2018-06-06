@@ -16,25 +16,70 @@ TicGame::TicGame()
 
 	InputCoords.Row = '\0';
 	InputCoords.Column = 0;
-	ScoreX = ScoreY = 0;
+	ScoreA = ScoreB = 0;
 	PlayerTurn = 'X';
 }
 
 // Get functions
-int TicGame::GetScoreX() const { return ScoreX; }
-int TicGame::GetScoreY() const { return ScoreY; }
+int TicGame::GetScoreA() const { return ScoreA; }
+int TicGame::GetScoreB() const { return ScoreB; }
 char TicGame::GetPlayerTurn() const { return PlayerTurn; }
 
-int TicGame::PlayTurn()
+void TicGame::PlayTurn()
 {
 	// Input Turn string
 	char InputValue[5];
 	fgets(InputValue, 5, stdin);
 	SplitInput(InputValue);
-	ValidatedInput(InputValue);
+	switch (ValidatedInput(InputValue))
+	{
+	case EInputErrorType::BadBoth:
+		cout << "Invalid cell.\n";
+		break;
+	
+	case EInputErrorType::BadColumn:
+		cout << "Invalid column.\n";
+		break;
+	
+	case EInputErrorType::BadRow:
+		cout << "Invalid row.\n";
+		break;
+	
+	case EInputErrorType::TooLong:
+		cout << "Input should be of format <Row><Column> eg. \"A3\"\n";
+		break;
 
-	SwapPlayer();
-	return 0;
+	case EInputErrorType::Occupied:
+		cout << "Cell is occupied.\n";
+		break;
+
+	case EInputErrorType::OK:
+		cout << "Valid Input.\n";
+		break;
+	}
+	// TODO: Persist user for valid input
+	AddTurn();
+}
+
+// Adds entry to Board
+void TicGame::AddTurn()
+{
+		Game[InputCoords.Row][InputCoords.Column] = PlayerTurn;
+		if (!EndGame())
+			SwapPlayer();
+}
+
+bool TicGame::EndGame()
+{
+	char temp = '\0';
+	for (int i = 0; i < BOARD_SIZE; ++i)
+	{
+		for (int j = 0; j < BOARD_SIZE; ++j)
+		{
+			;
+		}
+	}
+	return false;
 }
 
 // Returns Error state of InputCoords
@@ -43,7 +88,6 @@ EInputErrorType TicGame::ValidatedInput(char InputValue[])
 	if (strlen(InputValue) > 2)
 		return EInputErrorType::TooLong;
 
-	InputCoords.Row = toupper(InputCoords.Row);
 	if (InputCoords.Row <= 1 || InputCoords.Row >= BOARD_SIZE)
 	{
 		if (InputCoords.Column <= 1 || InputCoords.Column >= BOARD_SIZE)
@@ -61,6 +105,16 @@ EInputErrorType TicGame::ValidatedInput(char InputValue[])
 		{
 			return EInputErrorType::BadColumn;
 		}
+	}
+
+	// Match array indices
+	InputCoords.Column--;
+	InputCoords.Row--;
+
+	// Checks array for unoccupied cell
+	if (Game[InputCoords.Row][InputCoords.Column] != '\0')
+	{
+		return EInputErrorType::Occupied;
 	}
 	return EInputErrorType::OK;
 }

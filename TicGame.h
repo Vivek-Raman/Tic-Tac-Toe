@@ -11,7 +11,8 @@ enum EInputErrorType
 	BadRow,
 	BadColumn,
 	BadBoth,
-	TooLong
+	TooLong,
+	Occupied
 };
 
 class TicGame
@@ -21,14 +22,13 @@ public:
 	TicGame();	//Constructor to set default values
 
 	//Get functions
-	int GetScoreX() const;
-	int GetScoreY() const;
+	int GetScoreA() const;
+	int GetScoreB() const;
 	char GetPlayerTurn() const;
 
-	int PlayTurn();	//TODO: Improve return value
+	void PlayTurn();
 	EInputErrorType ValidatedInput(char[]);
 	void DisplayBoard() const;
-	bool IsGameDone();
 
 	~TicGame();
 
@@ -36,9 +36,11 @@ private:
 	char Game[3][3];
 	char PlayerTurn;
 	Input InputCoords;
-	int ScoreX;
-	int ScoreY;
+	int ScoreA;
+	int ScoreB;
 
 	void SwapPlayer();
 	void SplitInput(char[]);
+	void AddTurn();
+	bool EndGame();
 };
