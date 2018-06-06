@@ -15,14 +15,6 @@ enum EInputErrorType
 	Occupied
 };
 
-enum EEndGameType
-{
-	RowWin,
-	ColumnWin,
-	DiagonalWin,
-	False
-};
-
 class TicGame
 {
 
@@ -34,11 +26,9 @@ public:
 	int GetScoreB() const;
 	char GetPlayerTurn() const;
 
-	bool PlayTurn();
+	void PlayTurn();
 	EInputErrorType ValidatedInput(char[]);
 	void DisplayBoard() const;
-	EEndGameType EndGame();
-	void AddTurn();
 
 	~TicGame();
 
@@ -46,10 +36,11 @@ private:
 	char Game[3][3];
 	char PlayerTurn;
 	Input InputCoords;
-	bool GameOver;
 	int ScoreA;
 	int ScoreB;
 
 	void SwapPlayer();
-	void SplitInput(char*);
+	void SplitInput(char[]);
+	void AddTurn();
+	bool EndGame();
 };
