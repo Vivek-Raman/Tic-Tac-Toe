@@ -33,6 +33,7 @@ public:
 	int GetScoreA() const;
 	int GetScoreB() const;
 	char GetPlayerTurn() const;
+	bool bIsGameOver() const;
 
 	bool PlayTurn();
 	EInputErrorType ValidatedInput(char[]);
@@ -43,10 +44,10 @@ public:
 	~TicGame();
 
 private:
-	char Game[3][3];
-	char PlayerTurn;
-	Input InputCoords;
-	bool GameOver;
+	char Game[3][3];		// Game board
+	char PlayerTurn;		// Next turn / winner indicator
+	Input InputCoords;		
+	bool GameOver;			
 	int ScoreA;
 	int ScoreB;
 

@@ -26,6 +26,7 @@ TicGame::TicGame()
 int TicGame::GetScoreA() const { return ScoreA; }
 int TicGame::GetScoreB() const { return ScoreB; }
 char TicGame::GetPlayerTurn() const { return PlayerTurn; }
+bool TicGame::bIsGameOver() const {	return GameOver; }
 
 // Returns TRUE on valid input
 bool TicGame::PlayTurn()
@@ -72,6 +73,7 @@ void TicGame::AddTurn()
 		SwapPlayer();
 	else
 	{
+		GameOver = true;
 		cout << PlayerTurn << " wins!\n";	// TODO: Improve with subroutine
 	}
 }
@@ -93,11 +95,12 @@ EEndGameType TicGame::EndGame()
 				StreakCount++;
 			}
 		}
+		if (StreakCount == 3)
+			return EEndGameType::RowWin;
+		else
+			StreakCount = 0;
 	}
-	if (StreakCount == 3)
-		return EEndGameType::RowWin;
-	else
-		StreakCount = 0;
+	
 
 	// Check column-wise
 	for (int i = 0; i < BOARD_SIZE; ++i)
