@@ -81,8 +81,8 @@ void TicGame::AddTurn()
 // Checks win conditions
 EEndGameType TicGame::EndGame()
 {
+	/*
 	int StreakCount = 1;
-	
 	// Check row-wise
 	for (int i = 0; i < BOARD_SIZE; ++i)
 	{
@@ -144,7 +144,24 @@ EEndGameType TicGame::EndGame()
 		return EEndGameType::DiagonalWin;
 	else
 		StreakCount = 0;
-
+	*/
+	
+	if (Game[0][0] == Game[0][1] && Game[0][0] == Game[0][2])		// Row 1
+		return EEndGameType::RowWin;
+	if (Game[1][0] == Game[1][1] && Game[1][0] == Game[1][2])		// Row 2
+		return EEndGameType::RowWin;
+	if (Game[2][0] == Game[2][1] && Game[2][0] == Game[2][2])		// Row 3
+		return EEndGameType::RowWin;
+	if (Game[0][0] == Game[1][0] && Game[0][0] == Game[2][0])		// Column 1
+		return EEndGameType::ColumnWin;
+	if (Game[0][1] == Game[1][1] && Game[0][1] == Game[2][1])		// Column 2
+		return EEndGameType::ColumnWin;
+	if (Game[0][2] == Game[1][2] && Game[0][2] == Game[2][2])		// Column 3
+		return EEndGameType::ColumnWin;
+	if (Game[0][0] == Game[1][1] && Game[0][0] == Game[2][2])		// Primary Diagonal
+		return EEndGameType::DiagonalWin;
+	if (Game[0][2] == Game[1][1] && Game[0][2] == Game[2][0])		// Secondary Diagonal
+		return EEndGameType::DiagonalWin;
 	return EEndGameType::False;
 }
 
